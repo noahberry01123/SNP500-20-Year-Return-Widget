@@ -383,11 +383,29 @@ function pullOne(animate){
   }
   renderHand();
 }
+function handSummary(){
+  if(handDraws===0) return 'Pull a marble to start — green pays +'+money(winAmt)+', red costs '+money(loseAmt)+'.';
+  const expSoFar=handDraws*ev();
+  const head=`${handDraws} draw${handDraws===1?'':'s'} · you: ${money(handNet)} · expected: ${money(expSoFar)}`;
+  // qualitative note that evolves with the number of draws
+  let note;
+  if(handDraws<25){
+    note='still a small sample — short runs swing far from the expected value';
+  }else if(handDraws<150){
+    const gap=handNet-expSoFar;
+    note=(Math.abs(gap)<Math.max(2,0.05*handDraws))
+      ? 'already closing in on the expected value'
+      : (gap>0?'running above expectation — variance, not skill':'running below expectation — variance, not bad luck to fix');
+  }else{
+    const avg=handNet/handDraws, e=ev();
+    note=`your average is ${money(avg)}/draw vs ${money(e)} expected — the gap keeps shrinking as you pull more (law of large numbers)`;
+  }
+  return head+' · '+note;
+}
 function renderHand(){
   const n=$('pullNet'); n.textContent=money(handNet);
   n.className='pull-net '+(handNet>0?'pos':(handNet<0?'neg':''));
-  const expSoFar=handDraws*ev();
-  $('pullSub').textContent=`${handDraws} draw${handDraws===1?'':'s'} · expected ≈ ${money(expSoFar)} · short runs are noisy`;
+  $('pullSub').textContent=handSummary();
   const c=$('chips'); c.innerHTML='';
   const frag=document.createDocumentFragment();
   recent.forEach(w=>{const s=document.createElement('span'); s.className='chip '+(w?'g':'r'); frag.appendChild(s);});

@@ -4,7 +4,7 @@ Two small, self-contained web tools about **expected value** and the **law of la
 numbers** — the ideas at the heart of the difference between investing and gambling.
 They accompany the article *“The Difference Between Investing and Gambling Is One Number.”*
 
-**▶ [Open the tools](https://noahberry01123.github.io/investing-vs-gambling-tools/)**
+**▶ [Open the tools](https://noahberry01123.github.io/investing-vs-gambling/)**
 
 The landing page links to both tools, and every page has a tab bar at the top so you can
 switch between them. Each tool is a single HTML file with no dependencies except a
